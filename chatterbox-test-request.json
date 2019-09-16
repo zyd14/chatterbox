@@ -1,4 +1,8 @@
 {"channel": "#errors",
 "username": "KevinAlerts",
 "icon_emoji": ":kevin_scream:",
-"text": "Dont panic, this is just a test"}
+"text": "Dont panic, this is just a test",
+"blocks": [{"type": "section",
+            "text":  {"type": "plain_text",
+                      "text": "just another test"}
+}]}

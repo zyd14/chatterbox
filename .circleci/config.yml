@@ -21,7 +21,7 @@ jobs:
         name: Run tests
         command: |
           . venv/bin/activate
-          pytest -v . --log-file=./test_log.txt --cov=src --junitxml=test-results/pytest-report.xml
+          pytest -v .
     - store_test_results:
         path: test-results
     - save_cache:

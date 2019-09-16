@@ -14,7 +14,7 @@ class SlackMessageSchema(Schema):
     channel = fields.String(required=True)
     username = fields.String(required=False, default='AutomatedAlert', missing='AutomatedAlert')
     icon_emoji = fields.String(required=False)
-    blocks = fields.Dict(required=False)
+    blocks = fields.List(fields.Dict(), required=False)
     text = fields.String(required=True)
 
     @post_load()
