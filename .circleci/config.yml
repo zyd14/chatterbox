@@ -1,0 +1,101 @@
+version: 2.0
+jobs:
+  build-test:
+    docker:
+    - image: circleci/python:3.6.7
+    working_directory: ~/chatterbox
+    steps:
+    - checkout
+    - restore_cache:
+        keys:
+        - v1-dependencies-{{ checksum "requirements.txt" }}
+        - v1-dependencies-
+    - run:
+        name: Build / Install Dependencies
+        command: |
+          pip install virtualenv
+          python -m virtualenv venv
+          . venv/bin/activate
+          pip install -r requirements.txt
+    - run:
+        name: Run tests
+        command: |
+          . venv/bin/activate
+          pytest -v . --log-file=./test_log.txt --cov=src --junitxml=test-results/pytest-report.xml
+    - store_test_results:
+        path: test-results
+    - save_cache:
+        paths:
+        - ./venv
+        key: v1-dependencies-{{ checksum "requirements.txt" }}
+    - persist_to_workspace:
+        root: ~/chatterbox
+        paths:
+        - .
+  deploy_dev:
+    docker:
+    - image: circleci/python:3.6.7
+    working_directory: ~/chatterbox
+    steps:
+    - attach_workspace:
+        at: ~/chatterbox
+    - restore_cache:
+        keys:
+        - v1-dependencies-{{ checksum "~/chatterbox/requirements.txt" }}
+        - v1-dependencies-
+    - run:
+        name: Update Lambda functions with Zappa
+        command: |
+          . venv/bin/activate
+          zappa update dev
+  deploy_staging:
+    docker:
+    - image: circleci/python:3.6.7
+    working_directory: ~/chatterbox
+    steps:
+    - attach_workspace:
+        at: ~/chatterbox
+    - restore_cache:
+        keys:
+        - v1-dependencies-{{ checksum "requirements.txt" }}
+        - v1-dependencies-
+    - run:
+        name: Update Lambda functions with Zappa
+        command: |
+          . venv/bin/activate
+          zappa update staging
+  deploy_production:
+    docker:
+    - image: circleci/python:3.6.7
+    working_directory: ~/chatterbox
+    steps:
+    - attach_workspace:
+        at: ~/chatterbox
+    - restore_cache:
+        keys:
+        - v1-dependencies-{{ checksum "requirements.txt" }}
+        - v1-dependencies-
+    - run:
+        name: Update Lambda functions with Zappa
+        command: |
+          . venv/bin/activate
+          zappa update production
+workflows:
+  version: 2
+  build-test-deploy:
+    jobs:
+    - build-test
+    - deploy_staging:
+        requires:
+        - build-test
+        filters:
+          branches:
+            only:
+            - staging
+    - deploy_production:
+        requires:
+        - build-test
+        filters:
+          branches:
+            only:
+            - master

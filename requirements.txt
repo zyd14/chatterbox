@@ -1,0 +1,7 @@
+aws_xray_sdk==2.4.0
+marshmallow==2.19.2
+Flask==1.0.2
+flask-RESTful==0.3.6
+pytest==3.8.2
+slackclient==2.0.0
+zappa==0.48.2
