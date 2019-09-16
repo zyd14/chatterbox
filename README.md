@@ -21,3 +21,7 @@ Payload:
 "blocks": "[OPTIONAL] <list> - list of dictionaries describing text blocks making up more complex messages",
 "text": "[REQUIRED] <str> - text to put in message if blocks are not used."
 }
+```  
+An example request can be found in the root of the project folder, labeled `chatterbox-test-request.json`.  An example curl command
+using this request would be:  
+`curl -X POST -d @chatterbox-test-request.json https://80oamlb410.execute-api.us-west-2.amazonaws.com/production/message/slack`   
