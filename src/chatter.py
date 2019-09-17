@@ -27,10 +27,16 @@ def fail_gracefully(func):
         try:
             return func(*args, **kwargs)
         except BaseException as exc:
+            if isinstance(exc, InvalidRequestStructureError):
+                error_response = dict(message='InvalidRequestStructure',
+                                      code=400,
+                                      status='failure',
+                                      errors=exc.errors)
+            else:
+                error_response = dict(message='Internal server error due to unhandled exception', error=str(exc),
+                                      code=500,
+                                      status='failure')
             LOGGER.exception(exc)
-            error_response = dict(message='Internal server error due to unhandled exception', error=str(exc),
-                                  code=500,
-                                  status='failure')
             return make_response(jsonify(**error_response), 500)
 
     return wrapper
