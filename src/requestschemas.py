@@ -1,14 +1,6 @@
-import attr
 from typing import Dict
 
 from marshmallow import Schema, fields, post_load
-
-# class SlackMessage:
-#     channel = attr.ib()  # type: str
-#     username = attr.ib() # type: str
-#     icon_emoji = attr.ib(default=None)  # type: str
-#     blocks = attr.ib()  # type: dict
-#     text = attr.ib()  # type: str
 
 class SlackMessageSchema(Schema):
     channel = fields.String(required=True)
