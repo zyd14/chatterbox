@@ -11,11 +11,11 @@ from werkzeug.local import LocalProxy
 
 import slack
 
+from src.setup_app import api
 from src.exceptions import InvalidRequestStructureError
-from src.requestschemas import SlackMessageSchema
+from src.requestschemas import SlackMessageSchema, SlackMessageModel
 
 LOGGER = logging.getLogger('ChatterBox')
-
 def fail_gracefully(func):
     """ Wrapper method to put a try/except block around the function passed by user which returns an HTTP 500 Internal Server Error
         response to the client when unhandled exceptions occur.  Should only be used in cases where a Response object is
@@ -44,6 +44,7 @@ def fail_gracefully(func):
 class ChatterApi(Resource):
 
     @fail_gracefully
+    @api.expect(SlackMessageModel)
     def post(self):
         from flask_restful import request
 
