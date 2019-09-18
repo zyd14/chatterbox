@@ -2,7 +2,6 @@ import pytest
 
 @pytest.fixture
 def client_app():
-    from src import app
-    app.app.config['TESTING'] = True
-    test_client = app.app.test_client()
-    return test_client
+    import src.app as app_module
+    app_module.app.config['TESTING'] = True
+    yield app_module.app.test_client()

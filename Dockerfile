@@ -1,3 +1,8 @@
+
+# Note: alpine python docker image throws gcc errors while attempting to install the package pycares, which this
+# repo in its original form is reliant on.  Workarounds are encouraged and I would love to take a pull request from someone
+# who can get the package built from an alpine image as the build time is much better and image size smaller.
+
 FROM python:3.6.7
 
 ENV PROJECT_HOME /chatterbox
