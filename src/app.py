@@ -8,5 +8,5 @@ def tie_resources():
 
 tie_resources()
 
-def run(debug=False):
-    api.app.run(debug=debug)
+def run(debug: bool=False, host: str='0.0.0.0'):
+    api.app.run(debug=debug, host=host)

@@ -1,8 +1,9 @@
-FROM python:3.6-alpine
+FROM python:3.6.7
 
 ENV PROJECT_HOME /chatterbox
 ENV PROJECT_EXE /chatterbox/main.py
 ENV PROJECT_README /chatterbox/README.md
+
 ENV PROJECT_REQUIREMENTS /chatterbox/requirements.txt
 ENV PROJECT_SRC /chatterbox/src
 
@@ -15,8 +16,6 @@ COPY requirements.txt $PROJECT_REQUIREMENTS
 
 RUN pip install -r $PROJECT_REQUIREMENTS
 
-RUN chmod 766 $PROJECT_EXE
+RUN chmod 755 $PROJECT_EXE
 
-EXPOSE 5000
-
-ENTRYPOINT ["usr/bin/python", '$PROJECT_EXE']
+CMD python $PROJECT_EXE
