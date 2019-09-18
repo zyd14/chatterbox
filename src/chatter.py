@@ -53,7 +53,7 @@ class ChatterApi(Resource):
 
         message_attrs = self.parse_request(SlackMessageSchema, request)
 
-        if os.getenv('AWS_EXECUTION_ENV', None) or os.getenv('CI'):
+        if os.getenv('AWS_EXECUTION_ENV', None) or os.getenv('CI', None):
             token = os.getenv('SLACK_TOKEN')
         else:
             project_dir = os.path.split(os.path.dirname(os.path.realpath(__file__)))[0]
