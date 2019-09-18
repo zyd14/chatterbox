@@ -1,5 +1,6 @@
 import logging
 from functools import wraps
+import json
 import os
 import ssl
 from typing import Union
@@ -52,7 +53,12 @@ class ChatterApi(Resource):
 
         message_attrs = self.parse_request(SlackMessageSchema, request)
 
-        token = os.getenv('SLACK_TOKEN', 'xoxp-474801363894-480791448883-763872885671-2a031289949e275376a77079f64d1676')
+        if os.getenv('AWS_EXECUTION_ENV', None) or os.getenv('CI'):
+            token = os.getenv('SLACK_TOKEN')
+        else:
+            project_dir = os.path.split(os.path.dirname(os.path.realpath(__file__)))[0]
+            with open(os.path.join(project_dir, 'chatterbox-remote-env.json'), 'r') as env:
+                token = json.load(env)['SLACK_TOKEN']
         ssl_context = ssl.create_default_context()
         ssl_context.check_hostname = False
         ssl_context.verify_mode = ssl.CERT_NONE

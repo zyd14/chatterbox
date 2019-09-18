@@ -13,4 +13,5 @@ class SlackMessageSchema(Schema):
     def cleanup(self, data: Dict[str, str]):
         data['channel'] = data['channel'].strip()
         data['username'] = data['username'].strip()
+        return data
 
