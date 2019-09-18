@@ -53,7 +53,7 @@ class ChatterApi(Resource):
 
         message_attrs = self.parse_request(SlackMessageSchema, request)
 
-        token = os.getenv('SLACK_TOKEN', 'xoxp-474801363894-480791448883-763872885671-2a031289949e275376a77079f64d1676')
+        token = os.getenv('SLACK_TOKEN')
         ssl_context = ssl.create_default_context()
         ssl_context.check_hostname = False
         ssl_context.verify_mode = ssl.CERT_NONE
