@@ -1,5 +1,3 @@
-import json
-import os
 import ssl
 
 import boto3
@@ -12,7 +10,6 @@ from src.app import app, api
 from src.services.requestschemas import SlackMessageSchema, SlackMessageModel
 from src.utils import LOGGER, fail_gracefully, parse_request, httplog
 
-#api = sleepyapp.get_api()
 class ChatterApi(Resource):
 
     @fail_gracefully
@@ -26,21 +23,10 @@ class ChatterApi(Resource):
 
         message_attrs = parse_request(SlackMessageSchema, request)
 
-        token = self.get_token()
-        slack_client = self.setup_slack_client(token)
+        slack_client = self.setup_slack_client(app.config['SLACK_TOKEN'])
         response = slack_client.chat_postMessage(**message_attrs)
         LOGGER.info(f'Slack client response: {response}')
         return make_response(jsonify(code=response.status_code, data=response.data), response.status_code)
-
-    @staticmethod
-    def get_token() -> str:
-        if os.getenv('AWS_EXECUTION_ENV', None) or os.getenv('CI', None):
-            token = os.getenv('SLACK_TOKEN')
-        else:
-            project_dir = os.path.split(os.path.dirname(os.path.realpath(__file__)))[0]
-            with open(os.path.join(project_dir, 'chatterbox-remote-env.json'), 'r') as env:
-                token = json.load(env)['SLACK_TOKEN']
-        return token
 
     @staticmethod
     def setup_slack_client(token: str):
