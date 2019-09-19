@@ -81,7 +81,6 @@ def create_logger(slack=True, file=False, config: dict=None):
     LOGGER.addHandler(slack_handler)
     return LOGGER
 
-
 class SlackLogStreamer:
 
     def handle(self, record):

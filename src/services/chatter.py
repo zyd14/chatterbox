@@ -37,6 +37,8 @@ class ChatterApi(Resource):
                                        ssl=ssl_context)
         return slack_client
 
+
+
 def message_to_db(message, context):
     client = boto3.client('dynamodb')
     channel = message['default']['channel']
