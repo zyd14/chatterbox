@@ -1,6 +1,5 @@
 import os
 import ssl
-from typing import Union
 
 from flask import make_response, jsonify
 from flask_restplus import Resource
@@ -8,7 +7,7 @@ from flask_restplus import Resource
 import slack
 
 from src.setup_app import api
-from src.requestschemas import SlackMessageSchema, SlackMessageModel
+from src.services.requestschemas import SlackMessageSchema, SlackMessageModel
 from src.utils import LOGGER, fail_gracefully, parse_request
 
 

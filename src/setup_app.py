@@ -1,19 +1,28 @@
 from flask import Flask
 from flask_restplus import Api
 
-app = None
-api = None
+from src.utils import create_logger
+from src.config import CONFIG
 
-def setup_app_singleton():
-    global app
-    global api
-    if not app or not api:
-        from src.utils import create_logger
-        app = Flask('compile-trigger')
-        api = Api(app)
-        app.logger = create_logger(slack=True)
-        return app, api
-    else:
-        return app, api
 
-app, api = setup_app_singleton()
+class AppSingleton:
+
+    def __init__(self):
+        self._app = None
+        self._api = None
+        self._setup_app_singleton()
+
+    def _setup_app_singleton(self):
+        if not self._app or not self._api:
+            self._app = Flask(CONFIG['APP_NAME'])
+            self._app.logger = create_logger(slack=True)
+            self._app.config = CONFIG
+            self._api = Api(self._app)
+
+    def get_app(self):
+        return self._app
+
+    def get_api(self):
+        return self._api
+
+sleepyapp = AppSingleton()
