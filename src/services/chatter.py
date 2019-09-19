@@ -8,14 +8,15 @@ from flask_restplus import Resource
 
 import slack
 
-from src.setup_app import api
-from src.requestschemas import SlackMessageSchema, SlackMessageModel
-from src.utils import LOGGER, fail_gracefully, parse_request
+from src.app import app, api
+from src.services.requestschemas import SlackMessageSchema, SlackMessageModel
+from src.utils import LOGGER, fail_gracefully, parse_request, httplog
 
-
+#api = sleepyapp.get_api()
 class ChatterApi(Resource):
 
     @fail_gracefully
+    @httplog
     @api.expect(SlackMessageModel(name='slackmessage'))
     def post(self):
         from flask_restful import request

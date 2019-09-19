@@ -1,4 +1,5 @@
 import logging
+from logging import handlers
 from functools import wraps
 import json
 from typing import Union
@@ -59,3 +60,34 @@ def parse_request(schema_type: type(Schema), request_in: Union[LocalProxy, dict]
         raise InvalidRequestStructureError(error_msg, errors=parsed_request.errors)
 
     return parsed_request.data
+
+def httplog(func):
+    from flask import request
+    @wraps(func)
+    def loghttp(*args, **kwargs):
+        LOGGER.info(f'Incoming request: {request}')
+        if request.method == 'POST':
+            LOGGER.info(f'POST JSON data: {request.get_json()}')
+        elif request.method == 'GET':
+            LOGGER.info(f'GET query args: {request.args}')
+        response = func(*args, **kwargs)
+        LOGGER.info(f'{request.method} response: {response}')
+        return response
+    return loghttp
+
+def create_logger(slack=True, file=False, config: dict=None):
+    if slack:
+        slack_handler = handlers.MemoryHandler(1, flushLevel=logging.INFO, target=SlackLogStreamer())
+    LOGGER.addHandler(slack_handler)
+    return LOGGER
+
+
+class SlackLogStreamer:
+
+    def handle(self, record):
+        print(record)
+        print(dir(record))
+        self.send_slack_message(record)
+
+    def send_slack_message(self, event):
+        print(event)

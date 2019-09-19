@@ -2,6 +2,9 @@ import pytest
 
 @pytest.fixture
 def client_app():
-    import src.app as app_module
-    app_module.app.config['TESTING'] = True
-    yield app_module.app.test_client()
+    from src.setup_app import sleepyapp
+    api = sleepyapp.get_api()
+    api.testing = True
+    from src.app import tie_resources
+    #tie_resources(api)
+    yield sleepyapp.get_api().app.test_client()
