@@ -2,6 +2,7 @@ import json
 import os
 import ssl
 
+import boto3
 from flask import make_response, jsonify
 from flask_restplus import Resource
 
@@ -48,4 +49,9 @@ class ChatterApi(Resource):
         slack_client = slack.WebClient(token=token,
                                        ssl=ssl_context)
         return slack_client
+
+def message_to_db(message, context):
+    client = boto3.client('dynamodb')
+    channel = message['default']['channel']
+
 

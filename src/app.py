@@ -1,6 +1,6 @@
 
-from src.chatter import ChatterApi
-from src.setup_app import app, api
+from src.services.chatter import ChatterApi
+from src.setup_app import api
 
 def tie_resources():
     ns_message = api.namespace('message', 'Messaging operations')
