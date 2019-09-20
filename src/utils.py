@@ -78,7 +78,7 @@ def httplog(func):
 def create_logger(slack=True, file=False, config: dict=None):
     if slack:
         slack_handler = handlers.MemoryHandler(1, flushLevel=logging.INFO, target=SlackLogStreamer())
-    LOGGER.addHandler(slack_handler)
+        LOGGER.addHandler(slack_handler)
     return LOGGER
 
 class SlackLogStreamer:
