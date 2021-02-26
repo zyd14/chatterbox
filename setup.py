@@ -13,7 +13,7 @@ setuptools.setup(
     url='https://github.com/sciscogenetics/ApiToolbox',
     packages=setuptools.find_packages(),
     install_requires=["aiodns==2.0.0",
-                        "aiohttp==3.6.0",
+                        "aiohttp==3.7.4",
                         "aniso8601==8.0.0",
                         "async-timeout==3.0.1",
                         "atomicwrites==1.3.0",
