@@ -31,7 +31,7 @@ setuptools.setup(
                         "idna-ssl==1.1.0",
                         "importlib-metadata==0.23",
                         "itsdangerous==1.1.0",
-                        "Jinja2==2.10.1",
+                        "Jinja2==2.11.3",
                         "jmespath==0.9.4",
                         "jsonpickle==1.2",
                         "MarkupSafe==1.1.1",
