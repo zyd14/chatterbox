@@ -39,7 +39,7 @@ setuptools.setup(
                         "more-itertools==7.2.0",
                         "multidict==4.5.2",
                         "pluggy==0.13.0",
-                        "py==1.8.0",
+                        "py==1.10.0",
                         "pycares==3.0.0",
                         "pycparser==2.19",
                         "pytest==3.8.2",
