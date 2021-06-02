@@ -51,7 +51,7 @@ setuptools.setup(
                         "typing==3.7.4.1",
                         "typing-extensions==3.7.4",
                         "Unidecode==1.1.1",
-                        "urllib3==1.25.3",
+                        "urllib3==1.26.5",
                         "Werkzeug==0.15.6",
                         "wrapt==1.11.2",
                         "yarl==1.3.0",
